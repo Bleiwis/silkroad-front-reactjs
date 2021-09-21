@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Button, Grid, TextField } from "@material-ui/core";
+import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { register } from "./redux/actions/user.actions";
 function App() {
+  const { handleSubmit, control } = useForm();
+  const dispatch = useDispatch();
+  const onSubmit = (data) => dispatch(register(data));
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grid container direction="column">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid item md={6}>
+          <Controller
+            render={({ field }) => <TextField {...field} />}
+            name="user"
+            control={control}
+          />
+        </Grid>
+        <Grid item md={6}>
+          <Controller
+            render={({ field }) => <TextField {...field} />}
+            name="password"
+            control={control}
+          />
+        </Grid>
+        <Button type="submit" onClick={onSubmit}>
+          Registrar
+        </Button>
+      </form>
+    </Grid>
   );
 }
 
